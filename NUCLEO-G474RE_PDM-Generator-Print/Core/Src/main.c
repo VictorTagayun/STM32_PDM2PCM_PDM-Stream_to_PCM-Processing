@@ -113,19 +113,60 @@ int main(void)
 //	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
 //	}
 
-  uint16_t test = 8;
-
 	/* Prepare PDM buffer to be sent via SPI */
-	// first bit to MSB
-	for(uint16_t i = 0; i < test; i++){
-		pdmBuffer8_2000[i] += (tone500Hz_pdmdata[i] << (i & 7));
+	// first bit to LSB
+	uint16_t total_msb = 0, total_lsb, cntr = 8;
+	for(uint16_t i = 0; i < cntr; i++){
+		pdmBuffer8_2000[i] = (tone500Hz_pdmdata[i] << (i & 7));
+		total_lsb += pdmBuffer8_2000[i];
+		total_msb = tone500Hz_pdmdata[i];
+		total_msb = total_msb << (i & 7);
 	}
 
-	printf("pdmBuffer8_tone500Hz_pdmdata first bit to MSB\n");
-	for (uint16_t Index = 0; Index < test; Index++)
+	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
+	for (uint16_t Index = 0; Index < cntr; Index++)
 	{
-	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
+	  printf("%d %d\n", Index, pdmBuffer8_2000[Index]);
 	}
+
+	printf("total_lsb %d\n", total_lsb);
+	printf("total_msb %d\n", total_msb);
+
+  	//	/* Prepare PDM buffer to be sent via SPI */
+  	//	// first bit to LSB
+  	//	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
+  	//		pdmBuffer8_2000[i >> 3] |= (tone500Hz_pdmdata[i] << (i & 7));
+  	//	}
+  	//
+  	//	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
+  	//	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
+  	//	{
+  	//	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
+  	//	}
+
+//	printf("tone500Hz_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone500Hz_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone500Hz_pdmdata[Index]);
+//	}
+
+//	/* Prepare PDM buffer to be sent via SPI */
+//	// first bit to LSB
+//	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++)
+//	{
+//		pdmBuffer8_2000[i >> 3] = pdmBuffer8_2000[i >> 3] << (i & 7);
+//		pdmBuffer8_2000[i >> 3] |= tone500Hz_pdmdata[i];
+////		pdmBuffer8_2000[i >> 3] |= (tone500Hz_pdmdata[i] << (i & 7));
+//	}
+//
+//	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
+//	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
+//	{
+//	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
+//	}
+
+
+
 
 //	printf("tone500HzA4_pdmdata\n");
 //	for (uint16_t Index = 0; Index < sizeof(tone500HzA4_pdmdata); Index++)
