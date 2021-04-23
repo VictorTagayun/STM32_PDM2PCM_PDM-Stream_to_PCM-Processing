@@ -95,54 +95,51 @@ int main(void)
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-//	printf("tone500Hz_pdmdata\n");
-//	for (uint16_t Index = 0; Index < sizeof(tone500Hz_pdmdata); Index++)
-//	{
-//	  printf("%d %d\n",Index, tone500Hz_pdmdata[Index]);
-//	}
-//
-//	/* Prepare PDM buffer to be sent via SPI */
-//	// first bit to LSB
-//	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
-//		pdmBuffer8_2000[i >> 3] |= (tone500Hz_pdmdata[i] << (i & 7));
-//	}
-//
-//	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
-//	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
-//	{
-//	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
-//	}
+	printf("tone500Hz_pdmdata\n");
+	for (uint16_t Index = 0; Index < sizeof(tone500Hz_pdmdata); Index++)
+	{
+	  printf("%d %d\n",Index, tone500Hz_pdmdata[Index]);
+	}
 
 	/* Prepare PDM buffer to be sent via SPI */
 	// first bit to LSB
-	uint16_t total_msb = 0, total_lsb, cntr = 8;
-	for(uint16_t i = 0; i < cntr; i++){
-		pdmBuffer8_2000[i] = (tone500Hz_pdmdata[i] << (i & 7));
-		total_lsb += pdmBuffer8_2000[i];
-		total_msb = tone500Hz_pdmdata[i];
-		total_msb = total_msb << (i & 7);
+	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
+		pdmBuffer8_2000[i >> 3] |= (tone500Hz_pdmdata[i] << (i & 7));
 	}
 
 	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
-	for (uint16_t Index = 0; Index < cntr; Index++)
+	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
 	{
-	  printf("%d %d\n", Index, pdmBuffer8_2000[Index]);
+	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
 	}
 
-	printf("total_lsb %d\n", total_lsb);
-	printf("total_msb %d\n", total_msb);
 
-  	//	/* Prepare PDM buffer to be sent via SPI */
-  	//	// first bit to LSB
-  	//	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
-  	//		pdmBuffer8_2000[i >> 3] |= (tone500Hz_pdmdata[i] << (i & 7));
-  	//	}
-  	//
-  	//	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
-  	//	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
-  	//	{
-  	//	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
-  	//	}
+//  // troubleshooting MSB
+//	uint8_t temp_data = 1;
+//	uint16_t total_msb = 0, total_lsb, cntr = 8;
+//	printf("===============\n");
+//	for(uint16_t i = 0; i < cntr; i++){
+//		pdmBuffer8_2000[i] = pdmBuffer8_2000[i - 1] + (tone500Hz_pdmdata_temp[i] << (i & 7));
+//		total_lsb = pdmBuffer8_2000[i];
+//		total_msb = (total_msb << 1) + tone500Hz_pdmdata_temp[i];
+//	}
+//
+//	printf("total_lsb %d\n", total_lsb);
+//	printf("total_msb %d\n", total_msb);
+
+
+  	/* Prepare PDM buffer to be sent via SPI */
+  	// first bit to MSB
+  	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
+  		pdmBuffer8_2000[i >> 3] = (pdmBuffer8_2000[i >> 3] << 1) + tone500Hz_pdmdata[i];
+  	}
+
+  	printf("pdmBuffer8_tone500Hz_pdmdata first bit to MSB\n");
+  	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
+  	{
+  	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
+  	}
+
 
 //	printf("tone500Hz_pdmdata\n");
 //	for (uint16_t Index = 0; Index < sizeof(tone500Hz_pdmdata); Index++)
