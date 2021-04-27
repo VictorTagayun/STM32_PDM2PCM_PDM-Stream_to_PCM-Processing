@@ -1,0 +1,502 @@
+pdmBuffer8_tone500Hz_pdmdata first bit to MSB
+0 213
+1 85
+2 85
+3 106
+4 173
+5 90
+6 181
+7 171
+8 90
+9 218
+10 218
+11 219
+12 109
+13 109
+14 219
+15 109
+16 187
+17 118
+18 237
+19 221
+20 221
+21 221
+22 221
+23 238
+24 247
+25 189
+26 239
+27 125
+28 239
+29 190
+30 253
+31 251
+32 247
+33 239
+34 239
+35 247
+36 251
+37 255
+38 127
+39 239
+40 255
+41 127
+42 255
+43 127
+44 255
+45 239
+46 255
+47 255
+48 253
+49 255
+50 255
+51 255
+52 255
+53 255
+54 255
+55 255
+56 239
+57 255
+58 255
+59 255
+60 255
+61 255
+62 255
+63 255
+64 255
+65 255
+66 255
+67 255
+68 255
+69 255
+70 255
+71 255
+72 255
+73 255
+74 255
+75 239
+76 255
+77 255
+78 255
+79 191
+80 255
+81 251
+82 255
+83 251
+84 255
+85 223
+86 253
+87 255
+88 191
+89 223
+90 239
+91 239
+92 239
+93 223
+94 191
+95 125
+96 247
+97 190
+98 247
+99 189
+100 239
+101 119
+102 187
+103 189
+104 221
+105 187
+106 187
+107 118
+108 237
+109 183
+110 109
+111 182
+112 219
+113 91
+114 107
+115 107
+116 107
+117 90
+118 181
+119 171
+120 85
+121 170
+122 173
+123 85
+124 85
+125 85
+126 85
+127 82
+128 170
+129 85
+130 42
+131 84
+132 165
+133 41
+134 73
+135 73
+136 73
+137 36
+138 146
+139 73
+140 36
+141 137
+142 18
+143 36
+144 68
+145 136
+146 136
+147 68
+148 66
+149 33
+150 8
+151 66
+152 8
+153 65
+154 4
+155 8
+156 32
+157 64
+158 64
+159 64
+160 64
+161 32
+162 8
+163 0
+164 128
+165 8
+166 0
+167 16
+168 0
+169 4
+170 0
+171 0
+172 8
+173 0
+174 0
+175 0
+176 0
+177 4
+178 0
+179 0
+180 0
+181 0
+182 0
+183 0
+184 0
+185 0
+186 0
+187 0
+188 0
+189 0
+190 0
+191 0
+192 0
+193 0
+194 0
+195 0
+196 0
+197 0
+198 2
+199 0
+200 0
+201 0
+202 0
+203 64
+204 0
+205 1
+206 0
+207 0
+208 128
+209 2
+210 0
+211 16
+212 4
+213 1
+214 0
+215 128
+216 64
+217 64
+218 129
+219 2
+220 8
+221 32
+222 132
+223 16
+224 132
+225 34
+226 16
+227 136
+228 136
+229 136
+230 136
+231 145
+232 18
+233 36
+234 145
+235 36
+236 146
+237 73
+238 41
+239 37
+240 37
+241 41
+242 74
+243 82
+244 165
+245 82
+246 170
+247 85
+248 85
+249 84
+outBuffer first bit to MSB
+outBuffer 0 -28129
+outBuffer 1 -4033
+outBuffer 2 9350
+outBuffer 3 14932
+outBuffer 4 20237
+outBuffer 5 24651
+outBuffer 6 27280
+outBuffer 7 29275
+outBuffer 8 29571
+outBuffer 9 29539
+outBuffer 10 27528
+outBuffer 11 24232
+outBuffer 12 20167
+outBuffer 13 14887
+outBuffer 14 9334
+outBuffer 15 3092
+outBuffer 16 -3470
+outBuffer 17 -9761
+outBuffer 18 -15955
+outBuffer 19 -21089
+outBuffer 20 -26208
+outBuffer 21 -29332
+outBuffer 22 -32005
+outBuffer 23 -32768
+outBuffer 24 -32768
+outBuffer 25 -32351
+outBuffer 26 -29842
+outBuffer 27 -26388
+outBuffer 28 -21834
+outBuffer 29 -16235
+outBuffer 30 -9644
+outBuffer 31 -5180
+outBuffer 32 -5267
+outBuffer 33 -2587
+outBuffer 34 150
+outBuffer 35 2304
+outBuffer 36 1527
+outBuffer 37 3656
+outBuffer 38 -8842
+outBuffer 39 -1944
+outBuffer 40 3937
+outBuffer 41 -2490
+outBuffer 42 -6469
+outBuffer 43 -26387
+outBuffer 44 -29376
+outBuffer 45 -28789
+outBuffer 46 -28213
+outBuffer 47 -27648
+outBuffer 48 -27095
+outBuffer 49 -26553
+outBuffer 50 -26022
+outBuffer 51 -25502
+outBuffer 52 -24992
+outBuffer 53 -24492
+outBuffer 54 -24002
+outBuffer 55 -23522
+outBuffer 56 -23051
+outBuffer 57 -22590
+outBuffer 58 -22138
+outBuffer 59 -21695
+outBuffer 60 -21261
+outBuffer 61 -20836
+outBuffer 62 -20420
+outBuffer 63 -20011
+outBuffer 64 -19611
+outBuffer 65 -19219
+outBuffer 66 -18835
+outBuffer 67 -18458
+outBuffer 68 -18089
+outBuffer 69 -17727
+outBuffer 70 -17373
+outBuffer 71 -17025
+outBuffer 72 -16685
+outBuffer 73 -16351
+outBuffer 74 -16024
+outBuffer 75 -15704
+outBuffer 76 -15390
+outBuffer 77 -15082
+outBuffer 78 -14780
+outBuffer 79 -14485
+outBuffer 80 -14195
+outBuffer 81 -13911
+outBuffer 82 -13633
+outBuffer 83 -13361
+outBuffer 84 -13094
+outBuffer 85 -12832
+outBuffer 86 -12575
+outBuffer 87 -12324
+outBuffer 88 -12077
+outBuffer 89 -11836
+outBuffer 90 -11599
+outBuffer 91 -11367
+outBuffer 92 -11140
+outBuffer 93 -10917
+outBuffer 94 -10698
+outBuffer 95 -10484
+outBuffer 96 -10275
+outBuffer 97 -10069
+outBuffer 98 -9868
+outBuffer 99 -9670
+outBuffer 100 -9477
+outBuffer 101 -9287
+outBuffer 102 -9102
+outBuffer 103 -8920
+outBuffer 104 -8741
+outBuffer 105 -8566
+outBuffer 106 -8395
+outBuffer 107 -8227
+outBuffer 108 -8062
+outBuffer 109 -7901
+outBuffer 110 -7743
+outBuffer 111 -7588
+outBuffer 112 -7436
+outBuffer 113 -7288
+outBuffer 114 -7142
+outBuffer 115 -6999
+outBuffer 116 -6859
+outBuffer 117 -6722
+outBuffer 118 -6587
+outBuffer 119 -6456
+outBuffer 120 -6327
+outBuffer 121 -6200
+outBuffer 122 -6076
+outBuffer 123 -5955
+outBuffer 124 -5836
+outBuffer 125 0
+outBuffer 126 0
+outBuffer 127 0
+outBuffer 128 0
+outBuffer 129 0
+outBuffer 130 0
+outBuffer 131 0
+outBuffer 132 0
+outBuffer 133 0
+outBuffer 134 0
+outBuffer 135 0
+outBuffer 136 0
+outBuffer 137 0
+outBuffer 138 0
+outBuffer 139 0
+outBuffer 140 0
+outBuffer 141 0
+outBuffer 142 0
+outBuffer 143 0
+outBuffer 144 0
+outBuffer 145 0
+outBuffer 146 0
+outBuffer 147 0
+outBuffer 148 0
+outBuffer 149 0
+outBuffer 150 0
+outBuffer 151 0
+outBuffer 152 0
+outBuffer 153 0
+outBuffer 154 0
+outBuffer 155 0
+outBuffer 156 0
+outBuffer 157 0
+outBuffer 158 0
+outBuffer 159 0
+outBuffer 160 0
+outBuffer 161 0
+outBuffer 162 0
+outBuffer 163 0
+outBuffer 164 0
+outBuffer 165 0
+outBuffer 166 0
+outBuffer 167 0
+outBuffer 168 0
+outBuffer 169 0
+outBuffer 170 0
+outBuffer 171 0
+outBuffer 172 0
+outBuffer 173 0
+outBuffer 174 0
+outBuffer 175 0
+outBuffer 176 0
+outBuffer 177 0
+outBuffer 178 0
+outBuffer 179 0
+outBuffer 180 0
+outBuffer 181 0
+outBuffer 182 0
+outBuffer 183 0
+outBuffer 184 0
+outBuffer 185 0
+outBuffer 186 0
+outBuffer 187 0
+outBuffer 188 0
+outBuffer 189 0
+outBuffer 190 0
+outBuffer 191 0
+outBuffer 192 0
+outBuffer 193 0
+outBuffer 194 0
+outBuffer 195 0
+outBuffer 196 0
+outBuffer 197 0
+outBuffer 198 0
+outBuffer 199 0
+outBuffer 200 0
+outBuffer 201 0
+outBuffer 202 0
+outBuffer 203 0
+outBuffer 204 0
+outBuffer 205 0
+outBuffer 206 0
+outBuffer 207 0
+outBuffer 208 0
+outBuffer 209 0
+outBuffer 210 0
+outBuffer 211 0
+outBuffer 212 0
+outBuffer 213 0
+outBuffer 214 0
+outBuffer 215 0
+outBuffer 216 0
+outBuffer 217 0
+outBuffer 218 0
+outBuffer 219 0
+outBuffer 220 0
+outBuffer 221 0
+outBuffer 222 0
+outBuffer 223 0
+outBuffer 224 0
+outBuffer 225 0
+outBuffer 226 0
+outBuffer 227 0
+outBuffer 228 0
+outBuffer 229 0
+outBuffer 230 0
+outBuffer 231 0
+outBuffer 232 0
+outBuffer 233 0
+outBuffer 234 0
+outBuffer 235 0
+outBuffer 236 0
+outBuffer 237 0
+outBuffer 238 0
+outBuffer 239 0
+outBuffer 240 0
+outBuffer 241 0
+outBuffer 242 0
+outBuffer 243 0
+outBuffer 244 0
+outBuffer 245 0
+outBuffer 246 0
+outBuffer 247 0
+outBuffer 248 0
+outBuffer 249 0

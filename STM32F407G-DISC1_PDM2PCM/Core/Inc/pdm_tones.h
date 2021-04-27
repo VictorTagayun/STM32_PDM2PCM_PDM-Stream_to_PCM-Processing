@@ -37,5 +37,9 @@ const uint8_t tone500Hz_pdmdata_temp[] = {
 1,1,0,1, 0,1,0,0};
 
 uint8_t pdmBuffer8_2000[250];
-
 uint8_t pdmBuffer8_4000[500];
+
+uint16_t pdmBuffer16_2000[125];
+uint16_t pdmBuffer16_4000[250];
+
+uint16_t decimator_samples[8];

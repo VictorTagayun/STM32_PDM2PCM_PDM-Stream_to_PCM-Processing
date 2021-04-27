@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "pdm2pcm.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -43,6 +44,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+CRC_HandleTypeDef hcrc;
+
 I2C_HandleTypeDef hi2c1;
 
 I2S_HandleTypeDef hi2s3;
@@ -53,6 +56,8 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
+int16_t outBuffer[250];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,6 +67,7 @@ static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
@@ -105,71 +111,143 @@ int main(void)
   MX_I2S3_Init();
   MX_SPI1_Init();
   MX_USART2_UART_Init();
+  MX_CRC_Init();
+  MX_PDM2PCM_Init();
   /* USER CODE BEGIN 2 */
 
-	printf("tone500Hz_pdmdata\n");
-	for (uint16_t Index = 0; Index < sizeof(tone500Hz_pdmdata); Index++)
-	{
-	  printf("%d %d\n",Index, tone500Hz_pdmdata[Index]);
-	}
+//	printf("tone500Hz_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone500Hz_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone500Hz_pdmdata[Index]);
+//	}
+//
+//	printf("tone500HzA4_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone500HzA4_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone500HzA4_pdmdata[Index]);
+//	}
+//
+//	printf("tone500HzA8_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone500HzA8_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone500HzA8_pdmdata[Index]);
+//	}
+//
+//	printf("tone500HzA16_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone500HzA16_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone500HzA16_pdmdata[Index]);
+//	}
+//
+//	printf("tone500HzA20_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone500HzA20_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone500HzA20_pdmdata[Index]);
+//	}
+//
+//	printf("tone512HzA8_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone512HzA8_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone512HzA8_pdmdata[Index]);
+//	}
+//
+//	printf("tone512HzA20_pdmdata\n");
+//	for (uint16_t Index = 0; Index < sizeof(tone512HzA20_pdmdata); Index++)
+//	{
+//	  printf("%d %d\n",Index, tone512HzA20_pdmdata[Index]);
+//	}
+//
+//	// first bit to LSB
+//	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
+//		pdmBuffer8_2000[i >> 3] |= (tone500Hz_pdmdata[i] << (i & 7));
+//	}
+//
+//	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
+//	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
+//	{
+//	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
+//	}
 
-	printf("tone500HzA4_pdmdata\n");
-	for (uint16_t Index = 0; Index < sizeof(tone500HzA4_pdmdata); Index++)
-	{
-	  printf("%d %d\n",Index, tone500HzA4_pdmdata[Index]);
-	}
 
-	printf("tone500HzA8_pdmdata\n");
-	for (uint16_t Index = 0; Index < sizeof(tone500HzA8_pdmdata); Index++)
-	{
-	  printf("%d %d\n",Index, tone500HzA8_pdmdata[Index]);
-	}
-
-	printf("tone500HzA16_pdmdata\n");
-	for (uint16_t Index = 0; Index < sizeof(tone500HzA16_pdmdata); Index++)
-	{
-	  printf("%d %d\n",Index, tone500HzA16_pdmdata[Index]);
-	}
-
-	printf("tone500HzA20_pdmdata\n");
-	for (uint16_t Index = 0; Index < sizeof(tone500HzA20_pdmdata); Index++)
-	{
-	  printf("%d %d\n",Index, tone500HzA20_pdmdata[Index]);
-	}
-
-	printf("tone512HzA8_pdmdata\n");
-	for (uint16_t Index = 0; Index < sizeof(tone512HzA8_pdmdata); Index++)
-	{
-	  printf("%d %d\n",Index, tone512HzA8_pdmdata[Index]);
-	}
-
-	printf("tone512HzA20_pdmdata\n");
-	for (uint16_t Index = 0; Index < sizeof(tone512HzA20_pdmdata); Index++)
-	{
-	  printf("%d %d\n",Index, tone512HzA20_pdmdata[Index]);
-	}
-
-	// first bit to LSB
-	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
-		pdmBuffer8_2000[i >> 3] |= (tone500Hz_pdmdata[i] << (i & 7));
-	}
-
-	printf("pdmBuffer8_tone500Hz_pdmdata first bit to LSB\n");
-	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
-	{
-	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
-	}
-
-  	// first bit to MSB
-  	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
-  		pdmBuffer8_2000[i >> 3] = (pdmBuffer8_2000[i >> 3] << 1) + tone500Hz_pdmdata[i];
-  	}
-
-  	printf("pdmBuffer8_tone500Hz_pdmdata first bit to MSB\n");
-  	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
+  	// first bit to MSB - 8bit
+  	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++)
   	{
-  	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
+  		pdmBuffer8_2000[i >> 3] = (pdmBuffer8_2000[i >> 3] << 1) + tone500Hz_pdmdata[i];
+  		pdmBuffer8_4000[i >> 3] = (pdmBuffer8_4000[i >> 3] << 1) + tone500Hz_pdmdata[i];
   	}
+  	for(uint16_t i = 0; i < sizeof(pdmBuffer8_2000); i++)
+  	{
+  		pdmBuffer8_4000[i + sizeof(pdmBuffer8_2000)] = pdmBuffer8_2000[i];
+  	}
+//  	printf("pdmBuffer8_2000_tone500Hz_pdmdata first bit to MSB\n");
+//  	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_2000); Index++)
+//  	{
+//  	  printf("%d %d\n",Index, pdmBuffer8_2000[Index]);
+//  	}
+  	printf("pdmBuffer8_4000_tone500Hz_pdmdata first bit to MSB\n");
+  	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_4000); Index++)
+  	{
+  	  printf("%d %d\n",Index, pdmBuffer8_4000[Index]);
+  	}
+//  	PDM_Filter(&pdmBuffer8_4000[0],&outBuffer[0], &PDM1_filter_handler);
+
+
+//  	// first bit to MSB - 16bit
+//  	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++){
+//  		pdmBuffer16_2000[i >> 4] = (pdmBuffer16_2000[i >> 4] << 1) + tone500Hz_pdmdata[i];
+//  		pdmBuffer16_4000[i >> 4] = (pdmBuffer16_4000[i >> 4] << 1) + tone500Hz_pdmdata[i];
+//  	}
+//  	for(uint16_t i = 0; i < 125; i++)
+//  	{
+//  		pdmBuffer16_4000[i + 125] = pdmBuffer16_2000[i];
+//  	}
+//  	printf("pdmBuffer16_2000_pdmdata first bit to MSB\n");
+//  	for (uint16_t Index = 0; Index < 125; Index++)
+//  	{
+//  	  printf("pdmBuffer16_2000 %d %d\n",Index, pdmBuffer16_2000[Index]);
+//  	}
+//  	printf("pdmBuffer16_4000_pdmdata first bit to MSB\n");
+//  	for (uint16_t Index = 0; Index < 250; Index++)
+//  	{
+//  	  printf("pdmBuffer16_2000 %d %d\n",Index, pdmBuffer16_4000[Index]);
+//  	}
+//  	PDM_Filter(&pdmBuffer16_4000[0],&outBuffer[0], &PDM1_filter_handler);
+
+
+  	uint16_t decimator_samples_cntr = 0;
+  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_4000); index++)
+  	{
+  	  decimator_samples[index % 8] = pdmBuffer8_4000[index];
+  	  printf("decimator_samples mod 8 %d %d\n", index, index % 8);
+  	  if((index % 8) == 7)
+  	  {
+  		for (uint16_t index2 = 0; index2 < 8; index2++)
+  		{
+  			printf("decimator_64 samples %d %d\n", index2, decimator_samples[index2]);
+  		}
+  		PDM_Filter(&decimator_samples[0],&outBuffer[0], &PDM1_filter_handler);
+  		printf("decimator_samples %d %d\n", decimator_samples_cntr++, outBuffer[0]);
+  	  }
+  	}
+
+//  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_4000); index++)
+//  	{
+//  	  decimator_samples[index % 64] = pdmBuffer8_4000[index];
+//  	}
+//  	PDM_Filter(&decimator_samples[0],&outBuffer[0], &PDM1_filter_handler);
+
+
+  	// print out results
+//	printf("outBuffer first bit to MSB\n");
+//	for (uint16_t Index = 0; Index < sizeof(outBuffer); Index++)
+//	{
+//	  printf("outBuffer %d %d\n",Index, outBuffer[Index]);
+//	}
+
+
+
+
+
 
   /* USER CODE END 2 */
 
@@ -177,11 +255,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-//	  HAL_Delay(200);
+	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+	  HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -238,6 +316,33 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  __HAL_CRC_DR_RESET(&hcrc);
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
 }
 
 /**
@@ -456,20 +561,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : VBUS_FS_Pin */
-  GPIO_InitStruct.Pin = VBUS_FS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(VBUS_FS_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : OTG_FS_ID_Pin OTG_FS_DM_Pin OTG_FS_DP_Pin */
-  GPIO_InitStruct.Pin = OTG_FS_ID_Pin|OTG_FS_DM_Pin|OTG_FS_DP_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : OTG_FS_OverCurrent_Pin */
   GPIO_InitStruct.Pin = OTG_FS_OverCurrent_Pin;
