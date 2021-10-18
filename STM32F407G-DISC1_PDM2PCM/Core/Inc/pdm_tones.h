@@ -1,3 +1,4 @@
+// from https://github.com/siorpaes/pdm_playground
 const uint8_t tone500Hz_pdmdata[] = {
 1,1,0,1,0,1,0,1,
 0,1,0,1,0,1,0,1,
@@ -42,10 +43,10 @@ const char wikipedia_pdm_2x_period[] = {0101101111111111111101101010010000000000
 
 uint8_t pdmBuffer8_2000bits_250bytes[250];
 uint8_t pdmBuffer8_4000bits_500bytes[500];
-uint8_t pdmBuffer8_8000bits_1000bytes[1000];
+uint8_t pdmBuffer8_8000bits_1000bytes_1[1000];
+uint8_t pdmBuffer8_8000bits_1000bytes_2[1000];
+uint8_t pdmBuffer8_8000bits_1000bytes_3[1000];
 uint8_t decimator_samples_8[500];
 
 uint16_t pdmBuffer16_2000[125];
 uint16_t pdmBuffer16_4000[250];
-
-
