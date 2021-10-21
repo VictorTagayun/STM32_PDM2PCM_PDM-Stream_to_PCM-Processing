@@ -1,0 +1,122 @@
+Hello newbie here.
+I am trying to learn how to convert PDM data to PCM using PDM1_filter() function, I am using GCC.
+
+The first 2 converted PCM data seems to be abnormal as can be seen later.
+
+Firstly, instead of directly interfacing to a microphone or an ADC, I used sine PDM data from:
+
+https://github.com/siorpaes/pdm_playground/blob/9aa442d8a7e3265fbcdbfb66111b8dbad301e928/pdmgenerator/Host/tones/pdm1MHz/tone500Hz.h
+
+https://github.com/siorpaes/pdm_playground/blob/9aa442d8a7e3265fbcdbfb66111b8dbad301e928/pdmgenerator/Host/tones/pdm1MHz/tone500HzA4.h
+
+tone500Hz = full scale single sine PDM data of 500 bits
+tone500HzA4 = lower amplitude single sine PDM data of 500 bits
+
+these are 500bits of one sine cycle.
+Also to get exactly the whole data of the 500bits, with a decimation of 64, I multiplied it by 4 cycles, so I would get 8000bits. In effect, for decimator of 64, the PCM data output would be 125 (of 16bits).
+
+I have arranged the PDM in bytes with first data in MSB and have verified the data in excel sheet as shown.
+
+>> 01_PDM_to_bytes.png
+
+
+My PDM Filter Init and Config are shown below:
+
+PDM1_filter_handler.bit_order = PDM_FILTER_BIT_ORDER_MSB;
+PDM1_filter_handler.endianness = PDM_FILTER_ENDIANNESS_BE;
+PDM1_filter_handler.high_pass_tap = 2104533974;
+PDM1_filter_handler.in_ptr_channels = 1;
+PDM1_filter_handler.out_ptr_channels = 1;
+PDM_Filter_Init(&PDM1_filter_handler);
+
+PDM1_filter_config.decimation_factor = PDM_FILTER_DEC_FACTOR_64;
+PDM1_filter_config.output_samples_number = 125;
+PDM1_filter_config.mic_gain = 0;
+PDM_Filter_setConfig(&PDM1_filter_handler, &PDM1_filter_config);
+
+First I tried bytes of 0x55 and 0xAA to have a balanced density of 0s and 1s.
+
+// first bit to MSB - 8bit tone "55 or AA"
+for(uint16_t i = 0; i < sizeof(tone500HzA4_pdmdata) * 4; i++)
+{
+	pdmBuffer8_8000bits_1000bytes_1[i >> 3] = 0x55;
+}
+
+PDM_Filter(&pdmBuffer8_8000bits_1000bytes_1[0],&PCM_outBuffer[0], &PDM1_filter_handler);
+
+printf("PCM_outBuffer \n");
+for (uint16_t Index = 0; Index < 125; Index++)
+{
+	printf("%d %d\n",Index, PCM_outBuffer[Index]);
+}
+
+Then I have this data and waveform. Please notice the first 2 converted PCM data.
+
+>> 02_PDM_Output_AA-55.png
+
+Second, I tried the single cycle sine tone500Hz.h 
+
+// first bit to MSB - 8bit tone500Hz_pdmdata (full scale single sine PDM data)
+for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata) * 4; i++)
+{
+	pdmBuffer8_8000bits_1000bytes_2[i >> 3] = (pdmBuffer8_8000bits_1000bytes_2[i >> 3] << 1) + tone500Hz_pdmdata[i % sizeof(tone500Hz_pdmdata)];
+}
+
+PDM_Filter(&pdmBuffer8_8000bits_1000bytes_2[0],&PCM_outBuffer[0], &PDM1_filter_handler);
+
+printf("PCM_outBuffer \n");
+for (uint16_t Index = 0; Index < 125; Index++)
+{
+	printf("%d %d\n",Index, PCM_outBuffer[Index]);
+}
+
+Then I have this data and waveform. Please notice again the first 2 converted PCM data.
+
+>> 03_PDM_Output_tone500Hz.png
+
+Third, I tried the single cycle sine tone500HzA4.h (a low amplitube single cycle sine wave)
+
+// first bit to MSB - 8bit tone500HzA4_pdmdata
+for(uint16_t i = 0; i < sizeof(tone500HzA4_pdmdata) * 4; i++)
+{
+	pdmBuffer8_8000bits_1000bytes_3[i >> 3] = (pdmBuffer8_8000bits_1000bytes_3[i >> 3] << 1) + tone500HzA4_pdmdata[i % sizeof(tone500HzA4_pdmdata)];
+}
+
+PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[0], &PDM1_filter_handler);
+
+printf("PCM_outBuffer \n");
+for (uint16_t Index = 0; Index < 125; Index++)
+{
+	printf("%d %d\n",Index, PCM_outBuffer[Index]);
+}
+
+Then I have this data and waveform. Please notice again the first 2 converted PCM data.
+
+>> 04_PDM_Output_tone500HzA4.png
+
+Fourth, I tried to combine the 3 PDM data in order stated below
+1. PDM data of 0x55
+2. tone500Hz_pdmdata (full scale single sine PDM data)
+3. PDM data of 0x55
+4. tone500HzA4_pdmdata (lower amplitude single sine PDM data)
+
+PDM_Filter(&pdmBuffer8_8000bits_1000bytes_1[0],&PCM_outBuffer[0], &PDM1_filter_handler);
+PDM_Filter(&pdmBuffer8_8000bits_1000bytes_2[0],&PCM_outBuffer[125], &PDM1_filter_handler);
+PDM_Filter(&pdmBuffer8_8000bits_1000bytes_1[0],&PCM_outBuffer[250], &PDM1_filter_handler);
+PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[375], &PDM1_filter_handler);
+
+printf("PCM_outBuffer \n");
+for (uint16_t Index = 0; Index < 500; Index++)
+{
+	printf("%d %d\n",Index, PCM_outBuffer[Index]);
+}
+
+Then I have this data/waveform.
+
+>> 05_PDM_Output_combine.png
+
+Can you advice on the ff:
+1. Are procedures all correct?
+2. Is the first 2 PCM-converted data are correct and how to mitigate it? 
+3. Also on the 2nd red rectangle, I see also somewhat abnormality, how to validate if correct?
+4. Do the PDM_Filter_XX still applicable?
