@@ -1,5 +1,9 @@
 # Study OF PDM to PCM conversion  
 
+This project is preceded by interfacing the PDM microphone to an SPI interface of an MCU as discussed here https://github.com/VictorTagayun/STM32_SPI-TX-RX-DMA_SingleBoard
+
+This project will:
+
 1. Use a predefined stream of PDM data and convert/pack to byte size for input to the PDM filter
 2. Feed the byte converted PDM data to PDM Filter and check the PCM-converted data and plot to excel/speadsheet
 
