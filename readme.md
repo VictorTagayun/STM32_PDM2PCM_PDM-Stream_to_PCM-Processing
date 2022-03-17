@@ -1,6 +1,6 @@
 # Study OF PDM to PCM conversion  
 
-##Purpose of Project
+## Purpose of Project
 
 Learn how to:
 1. Interface to a PDM microphone
