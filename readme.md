@@ -1,5 +1,11 @@
 # Study OF PDM to PCM conversion  
 
+##Purpose of Project
+
+Learn how to:
+1. Interface to a PDM microphone
+2. Process PDM data to PCM
+
 This project is preceded by interfacing the PDM microphone to an SPI interface of an MCU as discussed here https://github.com/VictorTagayun/STM32_SPI-TX-RX-DMA_SingleBoard
 
 This project will:
