@@ -13,6 +13,8 @@ This project will:
 1. Use a predefined stream of PDM data and convert/pack to byte size for input to the PDM filter
 2. Feed the byte converted PDM data to PDM Filter and check the PCM-converted data and plot to excel/speadsheet
 
+## Steps / Procedure
+
 Get PDM bitstream data from 
 
 1. Single cycle Full scale sinewave https://github.com/siorpaes/pdm_playground/blob/9aa442d8a7e3265fbcdbfb66111b8dbad301e928/pdmgenerator/Host/tones/pdm1MHz/tone500Hz.h
