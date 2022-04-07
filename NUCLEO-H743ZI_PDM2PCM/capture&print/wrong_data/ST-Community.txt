@@ -1,0 +1,56 @@
+PDM2PCM PDM_Filter() funtion wierd output data and not repeatable
+
+I have been trying to troubleshoot PDM_Filter() output on both F4-discovery and H743-Nucleo.
+
+I have 3 variables of array with same content and pass PDM_Filter() but the results are all different.
+
+1st variable pdmBuffer8_500_V1 is copied to 2nd variable by
+
+  	for(uint16_t i = 0; i < sizeof(pdmBuffer8_500_V1); i++)
+  	{
+  		pdmBuffer8_500_V2[i] = pdmBuffer8_500_V1[i];
+  	}
+
+and third variable as well.
+
+  	for(uint16_t i = 0; i < sizeof(pdmBuffer8_500_V1); i++)
+  	{
+  		pdmBuffer8_500_V3[i] = pdmBuffer8_500_V2[i];
+  	}
+
+I print the contents of the 3 variables, all are same:
+
+  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_500_V1); index++)
+  	{
+  		printf("pdmBuffer8_500_V1 %d %d\n", index, pdmBuffer8_500_V1[index]);
+  	}
+
+  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_500_V2); index++)
+  	{
+  		printf("pdmBuffer8_500_V2 %d %d\n", index, pdmBuffer8_500_V2[index]);
+  	}
+
+  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_500_V3); index++)
+  	{
+  		printf("pdmBuffer8_500_V3 %d %d\n", index, pdmBuffer8_500_V3[index]);
+  	}
+
+Then I call:
+
+  	PDM_Filter(&pdmBuffer8_500_V1[0],&outBuffer[0], &PDM1_filter_handler);
+	printf("pdmBuffer8_500_V3\n");
+
+The contents of outBuffer are all different for each input of:
+
+pdmBuffer8_500_V1
+pdmBuffer8_500_V2
+pdmBuffer8_500_V3
+
+Every new upload I just change
+
+  	PDM_Filter(&pdmBuffer8_500_V1[0],&outBuffer[0], &PDM1_filter_handler);
+  	PDM_Filter(&pdmBuffer8_500_V2[0],&outBuffer[0], &PDM1_filter_handler);
+  	PDM_Filter(&pdmBuffer8_500_V3[0],&outBuffer[0], &PDM1_filter_handler);
+
+But every time I changed the variable, the output also change.
+

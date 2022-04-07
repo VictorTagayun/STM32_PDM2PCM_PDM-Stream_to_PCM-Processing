@@ -51,21 +51,7 @@ UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN PV */
 
-int16_t outBuffer[500];
-
-uint8_t pdmBuffer8_250[250], pdmBuffer8_500_V1[500], pdmBuffer8_500_V2[500], pdmBuffer8_500_V3[500];
-
-const uint8_t tone500Hz_pdmdata[] = {
-1,1,0,1,0,1,0,1,
-0,1,0,1,0,1,0,1,
-0,1,0,1,0,1,0,1,
-0,1,1,0,1,0,1,0,
-1,0,1,0,1,1,0,1,
-0,1,0,1,1,0,1,0,
-1,0,1,1,0,1,0,1,
-1,0,1,0,1,0,1,1,
-0,1,0,1,1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0
-};
+int16_t PCM_outBuffer[1000];
 
 /* USER CODE END PV */
 
@@ -118,64 +104,48 @@ int main(void)
   MX_PDM2PCM_Init();
   /* USER CODE BEGIN 2 */
 
-	for (uint16_t Index = 0; Index < sizeof(outBuffer)/2; Index++)
+  printf("Starting >> NUCLEO-H743ZI_PDM2PCM \n");
+
+	// first bit to MSB - 8bit tone "AA"
+	for(uint16_t i = 0; i < sizeof(tone500HzA4_pdmdata) * 4; i++)
 	{
-	  outBuffer[Index] = 0;
+		pdmBuffer8_8000bits_1000bytes_1[i >> 3] = 0x55;
+//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500HzA4_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500HzA4_pdmdata));
 	}
 
-	// first bit to MSB - 8bit
-	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata); i++)
+	// first bit to MSB - 8bit tone500Hz_pdmdata
+	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata) * 4; i++)
 	{
-		pdmBuffer8_250[i >> 3] = (pdmBuffer8_250[i >> 3] << 1) + tone500Hz_pdmdata[i];
-		pdmBuffer8_500_V1[i >> 3] = (pdmBuffer8_500_V1[i >> 3] << 1) + tone500Hz_pdmdata[i];
-	}
-	for(uint16_t i = 0; i < sizeof(pdmBuffer8_250); i++)
-	{
-		pdmBuffer8_500_V1[i + sizeof(pdmBuffer8_250)] = pdmBuffer8_250[i];
+		pdmBuffer8_8000bits_1000bytes_2[i >> 3] = (pdmBuffer8_8000bits_1000bytes_2[i >> 3] << 1) + tone500Hz_pdmdata[i % sizeof(tone500Hz_pdmdata)];
+//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500Hz_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500Hz_pdmdata));
 	}
 
-
-  	for(uint16_t i = 0; i < sizeof(pdmBuffer8_500_V1); i++)
-  	{
-  		pdmBuffer8_500_V2[i] = pdmBuffer8_500_V1[i];
-  	}
-
-  	for(uint16_t i = 0; i < sizeof(pdmBuffer8_500_V1); i++)
-  	{
-  		pdmBuffer8_500_V3[i] = pdmBuffer8_500_V2[i];
-  	}
-
-
-//  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_500_V1); index++)
-//  	{
-//  		printf("pdmBuffer8_500_V1 %d %d\n", index, pdmBuffer8_500_V1[index]);
-//  	}
-//
-//  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_500_V2); index++)
-//  	{
-//  		printf("pdmBuffer8_500_V2 %d %d\n", index, pdmBuffer8_500_V2[index]);
-//  	}
-//
-//  	for (uint16_t index = 0; index < sizeof(pdmBuffer8_500_V3); index++)
-//  	{
-//  		printf("pdmBuffer8_500_V3 %d %d\n", index, pdmBuffer8_500_V3[index]);
-//  	}
-
-
-  	PDM_Filter(&pdmBuffer8_500_V3[0],&outBuffer[0], &PDM1_filter_handler);
-	printf("pdmBuffer8_500_V3\n");
-
-
-  	// print out results
-	printf("outBuffer_first_bit_to_MSB\n");
-	for (uint16_t Index = 0; Index < sizeof(outBuffer)/2; Index++)
+	// first bit to MSB - 8bit tone500HzA4_pdmdata
+	for(uint16_t i = 0; i < sizeof(tone500HzA4_pdmdata) * 4; i++)
 	{
-	  printf("outBuffer %d %d\n",Index, outBuffer[Index]);
+		pdmBuffer8_8000bits_1000bytes_3[i >> 3] = (pdmBuffer8_8000bits_1000bytes_3[i >> 3] << 1) + tone500HzA4_pdmdata[i % sizeof(tone500HzA4_pdmdata)];
+//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500HzA4_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500HzA4_pdmdata));
 	}
 
 
+//	GPIOD->BSRR = (1<<13); // pin13 set
+	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_1[0],&PCM_outBuffer[0], &PDM1_filter_handler); // 174.5uS @ 168Mhz
+//	GPIOD->BSRR = (1<<(13+16)); // pin13 + 16, reset
+	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_2[0],&PCM_outBuffer[125], &PDM1_filter_handler); // 174.5uS @ 168Mhz
+//	GPIOD->BSRR = (1<<13); // pin13 set
+	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_1[0],&PCM_outBuffer[250], &PDM1_filter_handler); // 174.5uS @ 168Mhz
+//	GPIOD->BSRR = (1<<(13+16)); // pin13 + 16, reset
+	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[375], &PDM1_filter_handler); // 174.5uS @ 168Mhz
+//	GPIOD->BSRR = (1<<13); // pin13 set
 
-	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, SET);
+	printf("PCM_outBuffer \n");
+	for (uint16_t Index = 0; Index < 500; Index++)
+	{
+		printf("%d %d\n",Index, PCM_outBuffer[Index]);
+	}
+
+  printf("Ending   >> NUCLEO-H743ZI_PDM2PCM \n");
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -205,11 +175,13 @@ void SystemClock_Config(void)
   /** Supply configuration update enable
   */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
+
   /** Configure the main internal regulator output voltage
   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -229,6 +201,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -296,7 +269,7 @@ static void MX_USART3_UART_Init(void)
 
   /* USER CODE END USART3_Init 1 */
   huart3.Instance = USART3;
-  huart3.Init.BaudRate = 115200;
+  huart3.Init.BaudRate = 57600;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
   huart3.Init.StopBits = UART_STOPBITS_1;
   huart3.Init.Parity = UART_PARITY_NONE;
@@ -463,5 +436,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
