@@ -44,7 +44,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-CRC_HandleTypeDef hcrc;
+ CRC_HandleTypeDef hcrc;
 
 I2C_HandleTypeDef hi2c1;
 
@@ -121,6 +121,8 @@ int main(void)
 //	  printf("%d %d\n",Index, tone500Hz_pdmdata[Index]);
 //	}
 
+  printf("Starting >> STM32F407G-DISC1_PDM2PCM... \n");
+
 	// first bit to MSB - 8bit tone "AA"
 	for(uint16_t i = 0; i < sizeof(tone500HzA4_pdmdata) * 4; i++)
 	{
@@ -148,11 +150,16 @@ int main(void)
 //		printf("%d %d\n",Index, pdmBuffer8_8000bits_1000bytes_2[Index]);
 //	}
 
+	GPIOD->BSRR = (1<<15); // Set
 	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_1[0],&PCM_outBuffer[0], &PDM1_filter_handler);
+	GPIOD->BSRR  = (1<< (15 + 16) ); // Reset
 	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_2[0],&PCM_outBuffer[125], &PDM1_filter_handler);
+	GPIOD->BSRR = (1<<15); // Set
 	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_1[0],&PCM_outBuffer[250], &PDM1_filter_handler);
+	GPIOD->BSRR  = (1<< (15 + 16) ); // Reset
 	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[375], &PDM1_filter_handler);
-//	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[500], &PDM1_filter_handler);
+	GPIOD->BSRR = (1<<15); // Set
+
 
 //	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[0], &PDM1_filter_handler);
 
@@ -162,6 +169,7 @@ int main(void)
 		printf("%d %d\n",Index, PCM_outBuffer[Index]);
 	}
 
+	printf("Ending   >> STM32F407G-DISC1_PDM2PCM... \n");
 
   /* USER CODE END 2 */
 
@@ -170,9 +178,9 @@ int main(void)
   while (1)
   {
 	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
 	  HAL_Delay(100);
     /* USER CODE END WHILE */
 
@@ -194,6 +202,7 @@ void SystemClock_Config(void)
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -209,6 +218,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -373,7 +383,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 57600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -468,6 +478,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : VBUS_FS_Pin */
+  GPIO_InitStruct.Pin = VBUS_FS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(VBUS_FS_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : OTG_FS_ID_Pin OTG_FS_DM_Pin OTG_FS_DP_Pin */
+  GPIO_InitStruct.Pin = OTG_FS_ID_Pin|OTG_FS_DM_Pin|OTG_FS_DP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pin : OTG_FS_OverCurrent_Pin */
   GPIO_InitStruct.Pin = OTG_FS_OverCurrent_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -526,5 +550,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
