@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under Ultimate Liberty license
+ * SLA0044, the "License"; You may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at:
+ *                             www.st.com/SLA0044
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -44,7 +44,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-CRC_HandleTypeDef hcrc;
+ CRC_HandleTypeDef hcrc;
 
 I2C_HandleTypeDef hi2c1;
 
@@ -115,31 +115,28 @@ int main(void)
   MX_PDM2PCM_Init();
   /* USER CODE BEGIN 2 */
 
-//	printf("tone500Hz_pdmdata\n");
-//	for (uint16_t Index = 0; Index < sizeof(tone500Hz_pdmdata); Index++)
-//	{
-//	  printf("%d %d\n",Index, tone500Hz_pdmdata[Index]);
-//	}
+
+	printf("Starting >> STM32F407G-DISC1_PDM2PCM_Single-PDM-Array  \n");
 
 	// first bit to MSB - 8bit tone "AA"
 	for(uint16_t i = 0; i < sizeof(tone500HzA4_pdmdata) * 4; i++)
 	{
 		pdmBuffer8_8000bits_1000bytes_1[i >> 3] = 0x55;
-//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500HzA4_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500HzA4_pdmdata));
+		//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500HzA4_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500HzA4_pdmdata));
 	}
 
 	// first bit to MSB - 8bit tone500Hz_pdmdata
 	for(uint16_t i = 0; i < sizeof(tone500Hz_pdmdata) * 4; i++)
 	{
 		pdmBuffer8_8000bits_1000bytes_2[i >> 3] = (pdmBuffer8_8000bits_1000bytes_2[i >> 3] << 1) + tone500Hz_pdmdata[i % sizeof(tone500Hz_pdmdata)];
-//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500Hz_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500Hz_pdmdata));
+		//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500Hz_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500Hz_pdmdata));
 	}
 
 	// first bit to MSB - 8bit tone500HzA4_pdmdata
 	for(uint16_t i = 0; i < sizeof(tone500HzA4_pdmdata) * 4; i++)
 	{
 		pdmBuffer8_8000bits_1000bytes_3[i >> 3] = (pdmBuffer8_8000bits_1000bytes_3[i >> 3] << 1) + tone500HzA4_pdmdata[i % sizeof(tone500HzA4_pdmdata)];
-//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500HzA4_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500HzA4_pdmdata));
+		//		printf("i = %d,  i >>3 = %d, i mod sizeof(tone500HzA4_pdmdata) = %d \n",i, i >>3, i % sizeof(tone500HzA4_pdmdata));
 	}
 
 	for(uint16_t i = 0; i < 1000; i++)
@@ -162,24 +159,20 @@ int main(void)
 		pdmBuffer8_8000bits_4000bytes[i + 3000] = pdmBuffer8_8000bits_1000bytes_3[i];
 	}
 
-//	printf("pdmBuffer8_8000bits_1000bytes_2 first bit to MSB\n");
-//	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_8000bits_1000bytes_2); Index++)
-//	{
-//		printf("%d %d\n",Index, pdmBuffer8_8000bits_1000bytes_2[Index]);
-//	}
+	//	printf("pdmBuffer8_8000bits_1000bytes_2 first bit to MSB\n");
+	//	for (uint16_t Index = 0; Index < sizeof(pdmBuffer8_8000bits_1000bytes_2); Index++)
+	//	{
+	//		printf("%d %d\n",Index, pdmBuffer8_8000bits_1000bytes_2[Index]);
+	//	}
 
+	// single 500 data
 	GPIOD->BSRR = (1<<15); // Set
 	PDM_Filter(&pdmBuffer8_8000bits_4000bytes[0],&PCM_outBuffer[0], &PDM1_filter_handler);
 	GPIOD->BSRR  = (1<< (15 + 16) ); // Reset
-	PDM_Filter(&pdmBuffer8_8000bits_4000bytes[1000],&PCM_outBuffer[125], &PDM1_filter_handler);
-	GPIOD->BSRR = (1<<15); // Set
-	PDM_Filter(&pdmBuffer8_8000bits_4000bytes[2000],&PCM_outBuffer[250], &PDM1_filter_handler);
-	GPIOD->BSRR  = (1<< (15 + 16) ); // Reset
-	PDM_Filter(&pdmBuffer8_8000bits_4000bytes[3000],&PCM_outBuffer[375], &PDM1_filter_handler);
-	GPIOD->BSRR = (1<<15); // Set
 
 
-//	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[0], &PDM1_filter_handler);
+
+	//	PDM_Filter(&pdmBuffer8_8000bits_1000bytes_3[0],&PCM_outBuffer[0], &PDM1_filter_handler);
 
 	printf("PCM_outBuffer \n");
 	for (uint16_t Index = 0; Index < 500; Index++)
@@ -187,22 +180,23 @@ int main(void)
 		printf("%d %d\n",Index, PCM_outBuffer[Index]);
 	}
 
+	printf("Ending   >> STM32F407G-DISC1_PDM2PCM_Single-PDM-Array  \n");
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-	  HAL_Delay(100);
+	while (1)
+	{
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+		//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+		//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+		//	  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+		HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -219,6 +213,7 @@ void SystemClock_Config(void)
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -234,6 +229,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -398,7 +394,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 57600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -525,11 +521,11 @@ static void MX_GPIO_Init(void)
 
 PUTCHAR_PROTOTYPE
 {
-  /* Place your implementation of fputc here */
-  /* e.g. write a character to the LPUART1 and Loop until the end of transmission */
-  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
+	/* Place your implementation of fputc here */
+	/* e.g. write a character to the LPUART1 and Loop until the end of transmission */
+	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
 
-  return ch;
+	return ch;
 }
 
 /* USER CODE END 4 */
@@ -541,11 +537,11 @@ PUTCHAR_PROTOTYPE
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1)
+	{
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -560,10 +556,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
+	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
