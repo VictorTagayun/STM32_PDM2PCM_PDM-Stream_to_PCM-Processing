@@ -165,7 +165,7 @@ int main(void)
 	//		printf("%d %d\n",Index, pdmBuffer8_8000bits_1000bytes_2[Index]);
 	//	}
 
-	// single 500 data
+	// single 500 PCM data of results ; 4000 bytes x 8bit/byte / 64 decimation = 32k bits / 64 decimation = 500 PCM data
 	GPIOD->BSRR = (1<<15); // Set
 	PDM_Filter(&pdmBuffer8_8000bits_4000bytes[0],&PCM_outBuffer[0], &PDM1_filter_handler);
 	GPIOD->BSRR  = (1<< (15 + 16) ); // Reset
