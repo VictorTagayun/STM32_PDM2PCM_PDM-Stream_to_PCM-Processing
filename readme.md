@@ -3,8 +3,8 @@
 ## Purpose of Project
 
 Learn how to:
-1. Interface to a PDM microphone
-2. Process PDM data to PCM
+1. Process PDM data to PCM
+2. Interface to a PDM microphone
 
 This project is preceded by interfacing the PDM microphone to an SPI interface of an MCU as discussed here https://github.com/VictorTagayun/STM32_SPI-Master-RX-DMA_SingleBoard
 
